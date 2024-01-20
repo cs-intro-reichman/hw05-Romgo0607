@@ -11,8 +11,8 @@ public class GameOfLife {
 		String fileName = args[0];
 		//// Uncomment the test that you want to execute, and re-compile.
 		//// (Run one test at a time).
-		//// test1(fileName);
-		//// test2(fileName);
+		test1(fileName);
+		////test2(fileName);
 		//// test3(fileName, 3);
 		//// play(fileName);
 	}
@@ -28,8 +28,9 @@ public class GameOfLife {
 	private static void test2(String fileName) {
 		int[][] board = read(fileName);
 		for( int i = 0; i < board.length; i++) {
-			for( int j = 0; j < board[0].length; j++) {
+			for( int j = 0; j < board[i].length; j++) {
 				System.out.println(count(board, i, j));
+				System.out.println(cellValue(board, i, j));
 			}
 		}
 	}
@@ -65,18 +66,15 @@ public class GameOfLife {
 		In in = new In(fileName); // Constructs an In object for reading the input file
 		int rows = Integer.parseInt(in.readLine());
 		int cols = Integer.parseInt(in.readLine());
-		int[][] board = new int[rows + 2][cols + 2];
+		int[][] board = new int[rows][cols];
+		
 		for( int i = 0; i < rows; i++) {
-			for( int j = 0; j < cols; j++) {
-				if(( i == 0 ) || (j == 0)) {
-					board[i][j] = 0;
+				String str = in.readLine();
+				for(int j = 0; j < str.length(); j++) {
+					if(str.charAt(j) == 'x') {
+						board[i][j] = 1;
+					}
 				}
-				if((in.isEmpty()) || (in.readChar() == '.')) {
-					board[i][j] = 0;
-				} else if(in.readChar() == 'x') {
-					board[i][j] = 1;
-				}
-			}
 		}
 		return board;
 	}
@@ -88,6 +86,9 @@ public class GameOfLife {
 		int[][] newBoard = new int[board.length][board[0].length];
 		for( int i = 0; i < board.length; i++) {
 			for( int j = 0; j < board[0].length; j++) {
+				if((i == 0) || (j == 0)) {
+					newBoard[i][j] = 0;
+				}
 				newBoard[i][j] = cellValue(board,i,j);
 			}
 		}
@@ -123,12 +124,26 @@ public class GameOfLife {
 	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
 	public static int count(int[][] board, int i, int j) {
 		int count = 0;
-		for( int w = i-1 ; w < w+3; w++) {
-			for( int v = j-1; v < v+3; v++) {
-				if((w != i) && (v != j)) {
-					if(board[w][v] == 1) {
+		if((i ==0) && (j ==0)) {
+			count = countF(board, i + 1, j + 1);
+		} else if((i == board.length) && (j == board[0].length)) {
+			count = countF(board, i - 1, j - 1);
+		} else if(i == 0) {
+			count = countF(board, i + 1, j);
+		} else if(j ==0) {
+			count = countF(board, i, j + 1);
+		} else {
+			count = countF(board, i, j);
+		}
+		return count;
+	}
+	//caculates the number of live cells around board[i][j]
+	public static int countF(int[][] board, int i, int j) {
+		int count = 0;
+		for( int w = i-1 ; w < i+2; w++) {
+			for( int v = j-1; v < j+2; v++) {
+				if (!((w == i) && (v == j)) && (board[w][v] == 1)) {
 						count++;
-					}
 				}
 			}
 		}
@@ -138,7 +153,7 @@ public class GameOfLife {
 	// Prints the board. Alive and dead cells are printed as 1 and 0, respectively.
     public static void print(int[][] arr) {
             for (int i = 0; i < arr.length; i++) {
-				for (int j = 0; j < arr[0].length; j++){
+				for (int j = 0; j < arr[i].length; j++){
 					System.out.print(arr[i][j] + " ");
 				}
 				System.out.println();
