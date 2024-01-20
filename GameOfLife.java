@@ -63,7 +63,7 @@ public class GameOfLife {
 	// of this frame as representing the infinite number of dead cells that exist in every direction.
 	// This function assumes that the input file contains valid data, and does no input testing.
 	public static int[][] read(String fileName) {
-		In in = new In(fileName); // Constructs an In object for reading the input fil
+		In in = new In(fileName); // Constructs an In object for reading the input file
 		int rows = Integer.parseInt(in.readLine());
 		int cols = Integer.parseInt(in.readLine());
 		int[][] board = new int[rows][cols];
@@ -154,7 +154,7 @@ public class GameOfLife {
     public static void print(int[][] arr) {
             for (int i = 0; i < arr.length; i++) {
 				for (int j = 0; j < arr[i].length; j++){
-					System.out.print(arr[i][j] + " ");
+					System.out.printf(arr[i][j] + " ");
 				}
 				System.out.println();
 			}
