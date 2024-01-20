@@ -11,10 +11,10 @@ public class GameOfLife {
 		String fileName = args[0];
 		//// Uncomment the test that you want to execute, and re-compile.
 		//// (Run one test at a time).
-		//test1(fileName);
-		//test2(fileName);
+		test1(fileName);
+		test2(fileName);
 		//test3(fileName, 3);
-		play(fileName);
+		//play(fileName);
 	}
 	
 	// Reads the data file and prints the initial board.
@@ -126,18 +126,18 @@ public class GameOfLife {
 	// Assumes that i is at least 1 and at most the number of rows in the board - 1. 
 	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
 	public static int count(int[][] board, int i, int j) {
-		int count = 0;
-		for( int w = i-1 ; w < i+2; w++) { //w=1, v=1
-			for( int v = j-1; v < j+2; v++) {
-				if (board[w][v] == 1) {
-						count++;
-						if((w==i) && (v==j)) {
-							count--;
-						}
-				}
-			}
-		}
-		return count;
+		 int count = 0;
+    	int rows = board.length;
+    	int cols = board[0].length;
+
+    	for (int w = Math.max(0, i - 1); w <= Math.min(i + 1, rows - 1); w++) {
+        	for (int v = Math.max(0, j - 1); v <= Math.min(j + 1, cols - 1); v++) {
+            	if (board[w][v] == 1 && !(w == i && v == j)) {
+                	count++;
+            	}
+        	}
+    	}
+    return count;
 	}
 	
 	// Prints the board. Alive and dead cells are printed as 1 and 0, respectively.
