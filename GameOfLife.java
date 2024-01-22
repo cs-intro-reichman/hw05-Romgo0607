@@ -11,8 +11,8 @@ public class GameOfLife {
 		String fileName = args[0];
 		//// Uncomment the test that you want to execute, and re-compile.
 		//// (Run one test at a time).
-		test1(fileName);
-		test2(fileName);
+		//test1(fileName);
+		//test2(fileName);
 		//test3(fileName, 3);
 		//play(fileName);
 	}
@@ -27,10 +27,9 @@ public class GameOfLife {
 	// the count and cellValue functions.
 	private static void test2(String fileName) {
 		int[][] board = read(fileName);
-		for( int i = 1; i < board.length; i++) {
+		for( int i = 1; i < board.length - 1; i++) {
 			for( int j = 1; j < board[0].length - 1; j++) {
 				System.out.println("board["+i+"]" + "[" + j + "]" + " = " + board[i][j] + " ,and has " + count(board, i, j) + " live neibors. so now its gonne be: " + cellValue(board, i, j));
-				//System.out.println(cellValue(board, i, j));
 			}
 		}
 	}
@@ -66,13 +65,15 @@ public class GameOfLife {
 		In in = new In(fileName); // Constructs an In object for reading the input fil
 		int rows = Integer.parseInt(in.readLine());
 		int cols = Integer.parseInt(in.readLine());
-		int[][] board = new int[rows+2][cols+2];
+		int[][] board = new int[rows + 2][cols + 2];
 		
-		for( int i = 1; i < rows+1; i++) {
+		for( int i = 1; i < rows + 1; i++) {
 				String str = in.readLine();
-				for(int j = 1; j < str.length()+1; j++) {
+				if(str != null) {
+					for(int j = 0; j < str.length(); j++) {
 					if(str.charAt(j) == 'x') {
-						board[i][j] = 1;
+						board[i][j+1] = 1;
+					}
 					}
 				}
 		}
@@ -142,12 +143,12 @@ public class GameOfLife {
 	
 	// Prints the board. Alive and dead cells are printed as 1 and 0, respectively.
     public static void print(int[][] arr) {
-            for (int i = 1; i < arr.length; i++) {
-				for (int j = 1; j < arr[0].length; j++){
-					System.out.printf("%3s", arr[i][j]);
-				}
-				System.out.printf("%n");
+		for (int i = 1; i < arr.length - 1; i++) {
+			for (int j = 1; j < arr[0].length - 1; j++) {
+				System.out.printf("%3s", arr[i][j]);
 			}
+			System.out.printf("%n");
+		}
 	}
 		
     // Displays the board. Living and dead cells are represented by black and white squares, respectively.
