@@ -127,8 +127,8 @@ public class GameOfLife {
 	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
 	public static int count(int[][] board, int i, int j) {
 		int count = 0;
-		for( int w = i-1 ; w < i+3; w++) {
-			for( int v = j-1; v < j+3; v++) {
+		for( int w = i-1 ; w < i+2; w++) {
+			for( int v = j-1; v < j+2; v++) {
 				if (board[w][v] == 1) {
 						count++;
 						if((w==i) && (v==j)) {
